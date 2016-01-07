@@ -1,0 +1,26 @@
+{
+  "name": "jimbo",
+  "version": "0.0.0",
+  "description": "A microservice framework",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zkochan/jimbo.git"
+  },
+  "keywords": [
+    "microservice"
+  ],
+  "author": "Zoltan Kochan",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/zkochan/jimbo/issues"
+  },
+  "homepage": "https://github.com/zkochan/jimbo#readme",
+  "dependencies": {
+    "register-plugin": "^0.5.3",
+    "uva-amqp": "^0.5.1"
+  }
+}
