@@ -6,6 +6,7 @@ const registerPlugin = require('register-plugin');
 let defaultValidate = (value, cb) => cb(null, value)
 
 function Service() {
+  this.methods = {}
 }
 
 Service.prototype.connection = function(opts) {
@@ -29,13 +30,16 @@ Service.prototype.method = function(opts) {
 
   let validate = opts.config && opts.config.validate || defaultValidate
 
-  this._server.addMethod(opts.name, function(params, cb) {
+  function method(params, cb) {
     validate(params, function(err, request) {
       if (err) return cb(err)
 
       return opts.handler(params, cb)
     })
-  })
+  }
+
+  this._server.addMethod(opts.name, method)
+  this.methods[opts.name] = method
 }
 
 exports.Server = Service
