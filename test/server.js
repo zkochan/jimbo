@@ -82,3 +82,27 @@ describe('Server method validation', function() {
     })
   })
 })
+
+describe('Server register', function() {
+  it('should work with callbacks', function(done) {
+    let server = new Server()
+
+    server.connection({
+      channel: 'tests',
+      url: 'amqp://guest:guest@localhost:5672',
+    })
+
+    server.register([], done)
+  })
+
+  it('should return a promise', function(done) {
+    let server = new Server()
+
+    server.connection({
+      channel: 'tests',
+      url: 'amqp://guest:guest@localhost:5672',
+    })
+
+    server.register([]).then(done)
+  })
+})
