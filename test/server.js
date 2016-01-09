@@ -45,7 +45,7 @@ describe('Server method validation', function() {
     })
   })
 
-  it('should execute handler if validation passes', function(done) {
+  it('should execute handler if validation passes', function() {
     let server = new Server()
 
     server.connection({
@@ -68,18 +68,16 @@ describe('Server method validation', function() {
       handler: handlerSpy,
     })
 
-    server.inject({
-      methodName: 'foo',
-      params: {
-        bar: 'some string',
-      },
-    }, err => {
-      expect(err).to.not.exist
-
-      expect(handlerSpy).to.have.been.calledOnce
-
-      done()
-    })
+    return server
+      .inject({
+        methodName: 'foo',
+        params: {
+          bar: 'some string',
+        },
+      })
+      .then(() => {
+        expect(handlerSpy).to.have.been.calledOnce
+      })
   })
 })
 
@@ -92,7 +90,7 @@ describe('Server register', function() {
       url: 'amqp://guest:guest@localhost:5672',
     })
 
-    server.register([], done)
+    server.register([], () => done())
   })
 
   it('should return a promise', function(done) {
@@ -103,6 +101,6 @@ describe('Server register', function() {
       url: 'amqp://guest:guest@localhost:5672',
     })
 
-    server.register([]).then(done)
+    return server.register([]).then(() => done())
   })
 })
