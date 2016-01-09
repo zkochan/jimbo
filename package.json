@@ -4,12 +4,16 @@
   "description": "A microservice framework",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha test/**/*.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/zkochan/jimbo.git"
   },
+  "files": [
+    "lib",
+    "index.js"
+  ],
   "keywords": [
     "microservice"
   ],
@@ -20,7 +24,14 @@
   },
   "homepage": "https://github.com/zkochan/jimbo#readme",
   "dependencies": {
-    "register-plugin": "^0.5.3",
-    "uva-amqp": "^0.5.1"
+    "remi": "^0.1.1",
+    "uva-amqp": "^0.5.1",
+    "joi": "^7.1.0"
+  },
+  "devDependencies": {
+    "chai": "^3.4.1",
+    "mocha": "^2.3.4",
+    "sinon": "^1.17.2",
+    "sinon-chai": "^2.8.0"
   }
 }
