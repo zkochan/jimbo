@@ -71,6 +71,7 @@ describe('plugin expose', function() {
       extensions: [expose],
     }).register(app, plugin, function(err) {
       expect(err).to.not.exist
+      expect(app.plugins['foo-plugin']).to.be.not.undefined
 
       done()
     })
