@@ -85,4 +85,38 @@ describe('decorate', function() {
       done()
     })
   })
+
+  it('should share the decorated elements through register invocations', function() {
+    function plugin(app, options, next) {
+      app.decorate('server', 'foo', 'bar')
+      return next()
+    }
+    plugin.attributes = {
+      name: 'foo-plugin',
+      version: '0.0.0',
+    }
+
+    function noopPlugin(app, options, next) {
+      next()
+    }
+    noopPlugin.attributes = {
+      name: 'noop-plugin',
+    }
+
+    let app = {}
+    let remi = new Remi({
+      extensions: [decorate],
+    })
+
+    return remi
+      .register(app, plugin, {})
+      .then(() => {
+        expect(app.foo).to.eq('bar')
+
+        return remi.register(app, [noopPlugin], {})
+      })
+      .then(() => {
+        expect(app.foo).to.eq('bar')
+      })
+  })
 })

@@ -4,6 +4,7 @@ const chai = require('chai')
 const expect = chai.expect
 const sinon = require('sinon')
 const sinonChai = require('sinon-chai')
+
 chai.use(sinonChai)
 
 const Remi = require('remi')
@@ -75,5 +76,40 @@ describe('plugin expose', function() {
 
       done()
     })
+  })
+
+  it('should share the plugin namespace through register invocations', function() {
+    function plugin(app, options, next) {
+      expect(app.plugins['foo-plugin']).to.be.not.undefined
+      return next()
+    }
+    plugin.attributes = {
+      name: 'foo-plugin',
+      version: '0.0.0',
+    }
+
+    function noopPlugin(app, options, next) {
+      next()
+    }
+    noopPlugin.attributes = {
+      name: 'noop-plugin',
+    }
+
+    let app = {}
+    let remi = new Remi({
+      extensions: [expose],
+    })
+
+    return remi
+      .register(app, plugin, {})
+      .then(() => {
+        expect(app.plugins['foo-plugin']).to.be.not.undefined
+
+        return remi.register(app, [noopPlugin], {})
+      })
+      .then(() => {
+        expect(app.plugins).to.be.not.undefined
+        expect(app.plugins['foo-plugin']).to.be.not.undefined
+      })
   })
 })
