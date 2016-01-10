@@ -104,3 +104,27 @@ describe('Server register', function() {
     return server.register([]).then(() => done())
   })
 })
+
+describe('Server start', function() {
+  it('should work with callbacks', function(done) {
+    let server = new Server()
+
+    server.connection({
+      channel: 'tests',
+      url: 'amqp://guest:guest@localhost:5672',
+    })
+
+    server.start(() => done())
+  })
+
+  it('should return a promise', function(done) {
+    let server = new Server()
+
+    server.connection({
+      channel: 'tests',
+      url: 'amqp://guest:guest@localhost:5672',
+    })
+
+    return server.start().then(() => done())
+  })
+})
