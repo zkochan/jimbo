@@ -128,3 +128,48 @@ describe('Server start', function() {
     return server.start().then(() => done())
   })
 })
+
+describe('Server methods', function() {
+  it('should work with callbacks', function(done) {
+    let server = new Server()
+
+    server.connection({
+      channel: 'tests',
+      url: 'amqp://guest:guest@localhost:5672',
+    })
+
+    server.method({
+      name: 'foo',
+      handler(params, cb) {
+        cb(null, 'bar')
+      },
+    })
+
+    server.methods.foo({}, (err, res) => {
+      expect(err).to.not.exist
+      expect(res).to.eq('bar')
+      done()
+    })
+  })
+
+  it('should return a promise', function(done) {
+    let server = new Server()
+
+    server.connection({
+      channel: 'tests',
+      url: 'amqp://guest:guest@localhost:5672',
+    })
+
+    server.method({
+      name: 'foo',
+      handler(params, cb) {
+        cb(null, 'bar')
+      },
+    })
+
+    return server.methods.foo({}).then(res => {
+      expect(res).to.eq('bar')
+      done()
+    })
+  })
+})
