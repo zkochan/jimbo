@@ -23,7 +23,7 @@ describe('plugin expose', function() {
     let app = {}
     new Remi({
       extensions: [expose],
-    }).register(app, plugin, function(err, app) {
+    }).register(app, plugin, function(err) {
       expect(err).to.not.exist
       expect(app.plugins.plugin.foo).to.eq(1)
 
@@ -47,7 +47,7 @@ describe('plugin expose', function() {
     let app = {}
     new Remi({
       extensions: [expose],
-    }).register(app, plugin, function(err, app) {
+    }).register(app, plugin, function(err) {
       expect(err).to.not.exist
       expect(app.plugins.plugin.foo).to.eq(1)
       expect(app.plugins.plugin.bar).to.eq(3)
