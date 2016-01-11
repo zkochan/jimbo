@@ -13,11 +13,6 @@ describe('Server method validation', function() {
   it('should not execute handler if validation fails', function(done) {
     let server = new Server()
 
-    server.connection({
-      channel: 'tests',
-      url: 'amqp://guest:guest@localhost:5672',
-    })
-
     let handlerSpy = sinon.spy()
 
     server.method({
@@ -47,11 +42,6 @@ describe('Server method validation', function() {
 
   it('should execute handler if validation passes', function() {
     let server = new Server()
-
-    server.connection({
-      channel: 'tests',
-      url: 'amqp://guest:guest@localhost:5672',
-    })
 
     let handlerSpy = sinon.spy((params, cb) => {
       expect(params.bar).to.eq('some string')
@@ -85,21 +75,11 @@ describe('Server register', function() {
   it('should work with callbacks', function(done) {
     let server = new Server()
 
-    server.connection({
-      channel: 'tests',
-      url: 'amqp://guest:guest@localhost:5672',
-    })
-
     server.register([], () => done())
   })
 
   it('should return a promise', function(done) {
     let server = new Server()
-
-    server.connection({
-      channel: 'tests',
-      url: 'amqp://guest:guest@localhost:5672',
-    })
 
     return server.register([]).then(() => done())
   })
@@ -130,13 +110,22 @@ describe('Server start', function() {
 })
 
 describe('Server methods', function() {
-  it('should work with callbacks', function(done) {
+  it('should throw exception if no name passed', function() {
     let server = new Server()
 
-    server.connection({
-      channel: 'tests',
-      url: 'amqp://guest:guest@localhost:5672',
-    })
+    expect(() => server.method()).to.throw(Error, 'name is required')
+  })
+
+  it('should throw exception if no handler passed', function() {
+    let server = new Server()
+
+    expect(() => server.method({
+      name: 'foo',
+    })).to.throw(Error, 'handler is required')
+  })
+
+  it('should work with callbacks', function(done) {
+    let server = new Server()
 
     server.method({
       name: 'foo',
@@ -154,11 +143,6 @@ describe('Server methods', function() {
 
   it('should return a promise', function(done) {
     let server = new Server()
-
-    server.connection({
-      channel: 'tests',
-      url: 'amqp://guest:guest@localhost:5672',
-    })
 
     server.method({
       name: 'foo',
