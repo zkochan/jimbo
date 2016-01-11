@@ -100,13 +100,13 @@ describe('Server register', function() {
   it('should work with callbacks', function(done) {
     let server = new Server()
 
-    server.register([], () => done())
+    server.register([], done)
   })
 
   it('should return a promise', function(done) {
     let server = new Server()
 
-    return server.register([]).then(() => done())
+    return server.register([]).then(done)
   })
 })
 
@@ -177,6 +177,23 @@ describe('Server methods', function() {
     })
 
     return server.methods.foo({}).then(res => {
+      expect(res).to.eq('bar')
+      done()
+    })
+  })
+
+  it('should support methods returning promises', function(done) {
+    let server = new Server()
+
+    server.method({
+      name: 'foo',
+      handler(params) {
+        return Promise.resolve('bar')
+      },
+    })
+
+    server.methods.foo({}, (err, res) => {
+      expect(err).to.not.exist
       expect(res).to.eq('bar')
       done()
     })
