@@ -69,6 +69,31 @@ describe('Server method validation', function() {
         expect(handlerSpy).to.have.been.calledOnce
       })
   })
+
+  it('should execute handler if with any params is validation not specified', function() {
+    let server = new Server()
+
+    let handlerSpy = sinon.spy((params, cb) => {
+      expect(params.bar).to.eq('some string')
+      cb()
+    })
+
+    server.method({
+      name: 'foo',
+      handler: handlerSpy,
+    })
+
+    return server
+      .inject({
+        methodName: 'foo',
+        params: {
+          bar: 'some string',
+        },
+      })
+      .then(() => {
+        expect(handlerSpy).to.have.been.calledOnce
+      })
+  })
 })
 
 describe('Server register', function() {

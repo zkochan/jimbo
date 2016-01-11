@@ -1,3 +1,2 @@
-'use strict';
-
+'use strict'
 exports.Server = require('./lib/server')
