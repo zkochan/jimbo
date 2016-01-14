@@ -1,5 +1,4 @@
 'use strict'
-
 const Server = require('../lib/server')
 const chai = require('chai')
 const sinon = require('sinon')
