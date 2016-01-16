@@ -3,10 +3,12 @@ const Server = require('../lib/server')
 const chai = require('chai')
 const sinon = require('sinon')
 const sinonChai = require('sinon-chai')
+const chaiAsPromised = require('chai-as-promised')
 const expect = chai.expect
 const joi = require('joi')
 
-chai.use(sinonChai);
+chai.use(sinonChai)
+chai.use(chaiAsPromised)
 
 describe('Server method validation', function() {
   it('should not execute handler if validation fails', function(done) {
@@ -67,6 +69,30 @@ describe('Server method validation', function() {
       .then(() => {
         expect(handlerSpy).to.have.been.calledOnce
       })
+  })
+
+  it('should return error if handler returns error', function(done) {
+    let server = new Server()
+
+    server.method({
+      name: 'foo',
+      config: {
+        validate: {
+          bar: joi.string().required(),
+        },
+      },
+      handler: params => {throw new Error('error')},
+    })
+
+    let res = server
+      .inject({
+        methodName: 'foo',
+        params: {
+          bar: 'some string',
+        },
+      })
+
+    expect(res).to.be.rejectedWith(Error, 'error').notify(done)
   })
 
   it('should execute handler if with any params is validation not specified', function() {
