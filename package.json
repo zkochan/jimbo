@@ -13,7 +13,6 @@
     "url": "git+https://github.com/zkochan/jimbo.git"
   },
   "files": [
-    "lib",
     "index.js"
   ],
   "keywords": [
