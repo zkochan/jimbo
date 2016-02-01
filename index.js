@@ -35,6 +35,8 @@ module.exports = function() {
         for (let methodName in methods)
           server.addMethod(methodName, methods[methodName])
 
+        server.start()
+
         cb()
       })
   })

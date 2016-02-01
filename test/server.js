@@ -135,7 +135,7 @@ describe('Server start', function() {
 
     server.connection({
       channel: 'tests',
-      url: 'amqp://guest:guest@localhost:5672',
+      amqpURL: 'amqp://guest:guest@localhost:5672',
     })
 
     server.start(() => done())
@@ -146,7 +146,7 @@ describe('Server start', function() {
 
     server.connection({
       channel: 'tests',
-      url: 'amqp://guest:guest@localhost:5672',
+      amqpURL: 'amqp://guest:guest@localhost:5672',
     })
 
     return server.start().then(() => done())
