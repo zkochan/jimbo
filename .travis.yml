@@ -1,5 +1,7 @@
 language: node_js
 sudo: false
+services:
+  - rabbitmq
 node_js:
   - v4
 after_script:
