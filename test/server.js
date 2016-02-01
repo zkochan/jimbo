@@ -122,12 +122,6 @@ describe('Server method validation', function() {
 })
 
 describe('Server register', function() {
-  it('should work with callbacks', function(done) {
-    let server = new Server()
-
-    server.register([], done)
-  })
-
   it('should return a promise', function(done) {
     let server = new Server()
 
