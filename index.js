@@ -7,7 +7,7 @@ const debug = require('debug')('jimbo')
 const runAsync = require('run-async')
 const chalk = require('chalk')
 
-function extendWithRegister(server) {
+function extendWithRegister (server) {
   let registrator = remi(server)
   registrator.hook(require('remi-timeout')(5e3))
   registrator.hook(require('remi-runner')())
@@ -19,16 +19,16 @@ function extendWithRegister(server) {
   server.register = registrator.register
 }
 
-module.exports = function() {
+module.exports = function () {
   let methods = {}
 
   let connectionOpts
 
-  function connection(opts) {
+  function connection (opts) {
     connectionOpts = opts
   }
 
-  let start = thenify(function(cb) {
+  let start = thenify(function (cb) {
     uva
       .server(connectionOpts)
       .then(server => {
@@ -41,7 +41,7 @@ module.exports = function() {
       })
   })
 
-  function getValidationFunc(config) {
+  function getValidationFunc (config) {
     if (!config || !config.validate)
       return (params, cb) => cb(null, params)
 
@@ -49,7 +49,7 @@ module.exports = function() {
     return (params, cb) => joi.validate(params, schema, cb)
   }
 
-  function method(opts) {
+  function method (opts) {
     opts = opts || {}
 
     if (!opts.name)
@@ -61,7 +61,7 @@ module.exports = function() {
     let validationFunc = getValidationFunc(opts.config)
 
     let handlerName = chalk.magenta(opts.name)
-    function _method(params, cb) {
+    function _method (params, cb) {
       let handler = runAsync.cb(opts.handler, (err, value) => {
         if (err) {
           debug(handlerName + ' handler failed. Error details: ' +
@@ -76,7 +76,7 @@ module.exports = function() {
       debug(handlerName + ' called with params: ' +
         chalk.yellow(JSON.stringify(params)))
 
-      validationFunc(params, function(err, params) {
+      validationFunc(params, function (err, params) {
         if (err) {
           debug(handlerName + ' validation failed: ' +
             err.details.map(d => d.message).join(', '))
@@ -90,7 +90,7 @@ module.exports = function() {
     methods[opts.name] = thenify(_method)
   }
 
-  let inject = thenify(function(opts, cb) {
+  let inject = thenify(function (opts, cb) {
     methods[opts.methodName](opts.params, cb)
   })
 

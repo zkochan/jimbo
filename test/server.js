@@ -1,4 +1,7 @@
 'use strict'
+const describe = require('mocha').describe
+const it = require('mocha').it
+const beforeEach = require('mocha').beforeEach
 const jimbo = require('..')
 const chai = require('chai')
 const sinon = require('sinon')
@@ -10,8 +13,8 @@ const joi = require('joi')
 chai.use(sinonChai)
 chai.use(chaiAsPromised)
 
-describe('Server method validation', function() {
-  it('should not execute handler if validation fails', function(done) {
+describe('Server method validation', function () {
+  it('should not execute handler if validation fails', function (done) {
     let server = jimbo()
 
     let handlerSpy = sinon.spy()
@@ -41,7 +44,7 @@ describe('Server method validation', function() {
     })
   })
 
-  it('should execute handler if validation passes', function() {
+  it('should execute handler if validation passes', function () {
     let server = jimbo()
 
     let handlerSpy = sinon.spy((params, cb) => {
@@ -71,7 +74,7 @@ describe('Server method validation', function() {
       })
   })
 
-  it('should return error if handler returns error', function(done) {
+  it('should return error if handler returns error', function (done) {
     let server = jimbo()
 
     server.method({
@@ -95,7 +98,7 @@ describe('Server method validation', function() {
     expect(res).to.be.rejectedWith(Error, 'error').notify(done)
   })
 
-  it('should execute handler if with any params is validation not specified', function() {
+  it('should execute handler if with any params is validation not specified', function () {
     let server = jimbo()
 
     let handlerSpy = sinon.spy((params, cb) => {
@@ -121,16 +124,16 @@ describe('Server method validation', function() {
   })
 })
 
-describe('Server register', function() {
-  it('should return a promise', function(done) {
+describe('Server register', function () {
+  it('should return a promise', function (done) {
     let server = jimbo()
 
     return server.register([]).then(done)
   })
 })
 
-describe('Server start', function() {
-  it('should work with callbacks', function(done) {
+describe('Server start', function () {
+  it('should work with callbacks', function (done) {
     let server = jimbo()
 
     server.connection({
@@ -141,7 +144,7 @@ describe('Server start', function() {
     server.start(() => done())
   })
 
-  it('should return a promise', function(done) {
+  it('should return a promise', function (done) {
     let server = jimbo()
 
     server.connection({
@@ -153,14 +156,14 @@ describe('Server start', function() {
   })
 })
 
-describe('Server methods', function() {
-  it('should throw exception if no name passed', function() {
+describe('Server methods', function () {
+  it('should throw exception if no name passed', function () {
     let server = jimbo()
 
     expect(() => server.method()).to.throw(Error, 'name is required')
   })
 
-  it('should throw exception if no handler passed', function() {
+  it('should throw exception if no handler passed', function () {
     let server = jimbo()
 
     expect(() => server.method({
@@ -168,12 +171,12 @@ describe('Server methods', function() {
     })).to.throw(Error, 'handler is required')
   })
 
-  it('should work with callbacks', function(done) {
+  it('should work with callbacks', function (done) {
     let server = jimbo()
 
     server.method({
       name: 'foo',
-      handler(params, cb) {
+      handler (params, cb) {
         cb(null, 'bar')
       },
     })
@@ -185,12 +188,12 @@ describe('Server methods', function() {
     })
   })
 
-  it('should return a promise', function(done) {
+  it('should return a promise', function (done) {
     let server = jimbo()
 
     server.method({
       name: 'foo',
-      handler(params, cb) {
+      handler (params, cb) {
         cb(null, 'bar')
       },
     })
@@ -201,12 +204,12 @@ describe('Server methods', function() {
     })
   })
 
-  it('should support methods returning promises', function(done) {
+  it('should support methods returning promises', function (done) {
     let server = jimbo()
 
     server.method({
       name: 'foo',
-      handler(params) {
+      handler (params) {
         return Promise.resolve('bar')
       },
     })
