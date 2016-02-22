@@ -8,7 +8,7 @@ const runAsync = require('run-async')
 const chalk = require('chalk')
 
 function extendWithRegister (server) {
-  let registrator = remi(server)
+  const registrator = remi(server)
   registrator.hook(require('remi-timeout')(5e3))
   registrator.hook(require('remi-runner')())
   registrator.hook(require('remi-dependencies')())
@@ -20,7 +20,7 @@ function extendWithRegister (server) {
 }
 
 module.exports = function () {
-  let methods = {}
+  const methods = {}
 
   let connectionOpts
 
@@ -32,8 +32,9 @@ module.exports = function () {
     uva
       .server(connectionOpts)
       .then(server => {
-        for (let methodName in methods)
+        for (let methodName in methods) {
           server.addMethod(methodName, methods[methodName])
+        }
 
         server.start()
 
@@ -42,8 +43,9 @@ module.exports = function () {
   })
 
   function getValidationFunc (config) {
-    if (!config || !config.validate)
+    if (!config || !config.validate) {
       return (params, cb) => cb(null, params)
+    }
 
     let schema = joi.compile(config.validate)
     return (params, cb) => joi.validate(params, schema, cb)
@@ -52,11 +54,9 @@ module.exports = function () {
   function method (opts) {
     opts = opts || {}
 
-    if (!opts.name)
-      throw new Error('name is required')
+    if (!opts.name) throw new Error('name is required')
 
-    if (!opts.handler)
-      throw new Error('handler is required')
+    if (!opts.handler) throw new Error('handler is required')
 
     let validationFunc = getValidationFunc(opts.config)
 
@@ -90,11 +90,11 @@ module.exports = function () {
     methods[opts.name] = thenify(_method)
   }
 
-  let inject = thenify(function (opts, cb) {
+  const inject = thenify(function (opts, cb) {
     methods[opts.methodName](opts.params, cb)
   })
 
-  let jimboServer = {
+  const jimboServer = {
     methods,
     inject,
     start,

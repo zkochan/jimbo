@@ -14,9 +14,13 @@ chai.use(sinonChai)
 chai.use(chaiAsPromised)
 
 describe('Server method validation', function () {
-  it('should not execute handler if validation fails', function (done) {
-    let server = jimbo()
+  let server
 
+  beforeEach(() => {
+    server = jimbo()
+  })
+
+  it('should not execute handler if validation fails', function (done) {
     let handlerSpy = sinon.spy()
 
     server.method({
@@ -45,8 +49,6 @@ describe('Server method validation', function () {
   })
 
   it('should execute handler if validation passes', function () {
-    let server = jimbo()
-
     let handlerSpy = sinon.spy((params, cb) => {
       expect(params.bar).to.eq('some string')
       cb()
@@ -75,8 +77,6 @@ describe('Server method validation', function () {
   })
 
   it('should return error if handler returns error', function (done) {
-    let server = jimbo()
-
     server.method({
       name: 'foo',
       config: {
@@ -99,8 +99,6 @@ describe('Server method validation', function () {
   })
 
   it('should execute handler if with any params is validation not specified', function () {
-    let server = jimbo()
-
     let handlerSpy = sinon.spy((params, cb) => {
       expect(params.bar).to.eq('some string')
       cb()
