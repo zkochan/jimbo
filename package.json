@@ -27,17 +27,17 @@
   "dependencies": {
     "chalk": "^1.1.1",
     "debug": "^2.2.0",
-    "joi": "^7.1.0",
+    "joi": "^8.0.3",
     "merge": "^1.2.0",
     "remi": "^1.0.0",
-    "remi-decorate": "^1.0.0",
+    "remi-decorate": "^1.1.0",
     "remi-dependencies": "^1.0.0",
     "remi-expose": "^1.0.0",
     "remi-realm": "^1.0.0",
     "remi-runner": "^1.0.0",
     "remi-timeout": "^1.0.0",
     "run-async": "^2.1.0",
-    "thenify": "^3.1.1",
+    "thenify": "^3.2.0",
     "uva-amqp": "^0.7.1"
   },
   "devDependencies": {
