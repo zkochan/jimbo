@@ -33,9 +33,9 @@
   "dependencies": {
     "chalk": "^1.1.1",
     "debug": "^2.2.0",
-    "joi": "^8.0.3",
+    "joi": "^10.0.1",
     "merge": "^1.2.0",
-    "remi": "^1.0.0",
+    "remi": "^2.0.1",
     "remi-decorate": "^1.1.0",
     "remi-dependencies": "^1.0.0",
     "remi-expose": "^1.0.0",
@@ -48,9 +48,9 @@
   },
   "devDependencies": {
     "chai": "^3.4.1",
-    "chai-as-promised": "^5.2.0",
+    "chai-as-promised": "^6.0.0",
     "istanbul": "^0.4.2",
-    "mocha": "^2.3.4",
+    "mocha": "^3.2.0",
     "sinon": "^1.17.2",
     "sinon-chai": "^2.8.0"
   }
